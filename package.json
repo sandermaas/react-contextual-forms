@@ -1,6 +1,6 @@
 {
     "name": "react-contextual-forms",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Simple forms with React",
     "keywords": [
         "react",
@@ -10,11 +10,12 @@
     "author": "Sander Maas <sandermaas7@hotmail.com>",
     "homepage": "https://github.com/sandermaas/react-contextual-forms",
     "main": "./lib/index.js",
-    "module": "./es/index.js",
-    "types": "./types/index.d.ts",
+    "module": "es/index.js",
+    "types": "types/index.d.ts",
     "files": [
         "lib",
-        "es"
+        "es",
+        "types"
     ],
     "scripts": {
         "build": "npm run clean && npm run build:commonjs && npm run build:es && npm run build:types",
