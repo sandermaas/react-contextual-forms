@@ -1,0 +1,52 @@
+{
+    "name": "react-contextual-forms",
+    "version": "0.1.0",
+    "description": "Simple forms with React",
+    "keywords": [
+        "react",
+        "forms"
+    ],
+    "license": "MIT",
+    "author": "Sander Maas <sandermaas7@hotmail.com>",
+    "homepage": "https://github.com/sandermaas/react-contextual-forms",
+    "main": "./lib/index.js",
+    "module": "./es/index.js",
+    "types": "./types/index.d.ts",
+    "files": [
+        "lib",
+        "es"
+    ],
+    "scripts": {
+        "build": "npm run clean && npm run build:commonjs && npm run build:es && npm run build:types",
+        "build:commonjs": "cross-env BUILD_TYPE=commonjs babel src --out-dir lib --extensions .ts,.tsx",
+        "build:es": "cross-env BUILD_TYPE=es babel src --out-dir es --extensions .ts,.tsx",
+        "build:types": "tsc --emitDeclarationOnly --outDir types",
+        "clean": "rimraf lib es types"
+    },
+    "dependencies": {
+        "@babel/runtime": "^7.9.6"
+    },
+    "peerDependencies": {
+        "react": ">=16.8.0"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.8.4",
+        "@babel/core": "^7.9.6",
+        "@babel/plugin-proposal-class-properties": "^7.8.3",
+        "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+        "@babel/plugin-transform-modules-commonjs": "^7.9.6",
+        "@babel/plugin-transform-runtime": "^7.9.6",
+        "@babel/preset-env": "^7.9.6",
+        "@babel/preset-react": "^7.9.4",
+        "@babel/preset-typescript": "^7.9.0",
+        "@types/react": "^16.9.34",
+        "@types/react-dom": "^16.9.7",
+        "babel-loader": "^8.1.0",
+        "cross-env": "^7.0.2",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "rimraf": "^3.0.2",
+        "typescript": "^3.8.3",
+        "webpack": "^4.42.1"
+    }
+}
