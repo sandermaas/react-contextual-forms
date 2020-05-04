@@ -7,11 +7,10 @@ interface IInteractionProps {
 }
 
 export const Interaction: React.FunctionComponent<IInteractionProps> = ({ component }) => {
-    const { updateFieldValue, validateField } = useContext(FormContext)
+    const { updateFieldInteraction } = useContext(FormContext)
  
     return component({
-        update: (id: string, value: string) => updateFieldValue(id, value),
-        validate: (id: string) => validateField(id)
+        update: (id: string, value: string) => updateFieldInteraction(id, value)
     })
 }
 

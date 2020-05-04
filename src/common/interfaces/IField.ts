@@ -1,14 +1,13 @@
 export interface IField {
-    validators?: Array<IFieldValidator>,
-    value: string,
-    error?: string | null
+    error: string | null
+    value: string
 }
 
 export interface IFieldComponentProps {
-    error: string
+    error: string | null
+    isTouched: boolean
     value: string
     update: (value: string) => void
-    validate: () => void
 }
 
 export interface IFieldValidator {

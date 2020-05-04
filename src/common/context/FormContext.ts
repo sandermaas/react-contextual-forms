@@ -1,17 +1,19 @@
 import { createContext } from 'react'
+import { IField, IForm } from '../interfaces'
 
 interface IFormContext {
-    fields: { [key: string]: any }
-    initField: (fieldId: string, validators: Array<{ check: Function, message: string }>, value: string) => void
-    updateFieldValue: (fieldId: string, value: string) => void
-    validateField: (fieldId: string) => void
+    form: IForm
+    updateFieldContext: (fieldId: string, field: IField) => void
+    updateFieldInteraction: (fieldId: string, value: string) => void
 }
 
 const initialState: IFormContext = {
-    fields: {},
-    initField: (fieldId, validators, value) => {},
-    updateFieldValue: (fieldId, value) => {},
-    validateField: (fieldId) => {}
+    form: {
+        fields: {},
+        valid: true
+    },
+    updateFieldContext: (fieldId, field) => {},
+    updateFieldInteraction: (fieldId, value) => {}
 }
 
 export const FormContext = createContext<IFormContext>(initialState)

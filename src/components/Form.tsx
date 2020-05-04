@@ -1,93 +1,63 @@
 import React from 'react'
 import { FormContext } from '../common/context'
-import { IForm, IField, IFieldValidator } from '../common/interfaces'
+import { IForm, IField } from '../common/interfaces'
 
-export interface IFormProps {
-    alwaysValidate?: boolean
+interface IFormProps {
+    onChange?: ({}: IForm) => void
     onSubmit: ({}: IForm) => void
 }
-export interface IFormState {
-    [key: string]: IField
-}
 
-export class Form extends React.Component<IFormProps, IFormState> {
+export class Form extends React.Component<IFormProps> {
+    private _fields: {[key: string]: IField} = {}
+
     constructor(props: IFormProps) {
         super(props)
         this.state = {}
     }
 
-    handleSubmit = (event: any) => {
+    handleSubmit = (event: React.FormEvent) => {
         const { onSubmit } = this.props
 
         event.preventDefault()
         onSubmit({
-            fields: {
-                ...this.state
-            },
+            fields: this._fields,
             valid: this.validateForm()
         })
     }
 
-    initField = (fieldId: string, validators: Array<IFieldValidator>, value: string) => {
-        this.setState({
+    updateFieldContext = (fieldId: string, field: IField) => {
+        this._fields = {
+            ...this._fields,
             [fieldId]: {
-                ...this.state[fieldId],
-                validators,
-                value
-            }
-        })
-    }
-
-    updateFieldError = (fieldId: string, error: string | null) => {
-        this.setState({
-            [fieldId]: {
-                ...this.state[fieldId],
-                error
-            }
-        })
-    }
-
-    updateFieldValue = (fieldId: string, value: string) => {
-        const { alwaysValidate } = this.props
-
-        this.setState({
-            [fieldId]: {
-                ...this.state[fieldId],
-                value
-            }
-        }, () => {
-            if (alwaysValidate) this.validateField(fieldId)
-        })
-    }
-
-    validateField = (fieldId: string) => {
-        const validators = this.state[fieldId].validators
-        const value = this.state[fieldId].value
-        let error = ''
-
-        if (validators) {
-            for (let i = validators.length - 1; i >= 0; i--) {
-                if (!validators[i].check(value)) error = validators[i].message
+                error: field.error,
+                value: field.value
             }
         }
+    }
 
-        if (error) {
-            this.updateFieldError(fieldId, error)
-            return false
+    updateFieldInteraction = (fieldId: string, value: string) => {
+        if (this._fields[fieldId]) {
+            this._fields = {
+                ...this._fields,
+                [fieldId]: {
+                    error: null,
+                    value
+                }
+            }
+            this.forceUpdate()   
         } else {
-            this.updateFieldError(fieldId, null)
-            return true
+            console.error(`There is no field with id ${fieldId} to update`)
         }
     }
 
     validateForm = () => {
-        let valid = true
+        let isValid = true
 
-        Object.keys(this.state).forEach(field => {
-            if (!this.validateField(field)) valid = false
+        Object.keys(this._fields).forEach(key => {
+            if (this._fields[key].error) isValid = false
         })
-
-        return valid
+        
+        return isValid
     }
 
     render() {
@@ -95,10 +65,12 @@ export class Form extends React.Component<IFormProps, IFormState> {
 
         return (
             <FormContext.Provider value={{ 
-                fields: this.state,
-                initField: this.initField,
-                updateFieldValue: this.updateFieldValue,
-                validateField: this.validateField
+                form: {
+                    fields: this._fields,
+                    valid: this.validateForm()
+                },
+                updateFieldContext: this.updateFieldContext,
+                updateFieldInteraction: this.updateFieldInteraction
             }}>
                 <form noValidate onSubmit={this.handleSubmit}>
                     {children}
