@@ -11,6 +11,6 @@ export interface IFieldComponentProps {
 }
 
 export interface IFieldValidator {
-    check: Function
+    check: (value: string) => boolean
     message: string
 }

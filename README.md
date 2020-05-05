@@ -9,6 +9,7 @@ Simple forms for React using context.
 
 - Easy to use
 - Bring your own components
+- Write your own validators
 - Made with TypeScript (available types)
 
 ## Installation
@@ -21,11 +22,13 @@ npm install react-contextual-forms
 
 ## Usage
 
-After installing the package from NPM you can start using the 3 available components (Form, Field and Interaction) to build your forms. The 'Form' component is the one that will provide the context for the other ones, you can place 'Field' and 'Interaction' components within it. There is no restriction on the number of forms you can use next to each other, how many you use or where you place the fields/interactions in the form.
+After installing the package from NPM you can start using the 3 available components (Form, Field and Interaction) to build your forms. 
 
 ### Components
 
 #### Form
+
+The 'Form' component is the one that will provide the context for the others, you can place 'Field' and 'Interaction' components within it. There is no restriction on the number of forms you can use next to each other, how many you use or where you place the fields/interactions in the form.
 
 | Prop     | Type     | Required | Description                               |
 | -------- | -------- | -------- | ----------------------------------------- |
@@ -34,18 +37,44 @@ After installing the package from NPM you can start using the 3 available compon
 
 #### Field
 
-| Prop          | Type              | Required | Description                           |
-| ------------- | ----------------- | -------- | ------------------------------------- |
-| Component     | FunctionComponent | yes      | The component to render as the field  |
-| defaultValue  | string            | no       | The default value of the field        |
-| id            | string            | yes      | ID of this field                      |
-| validators    | Array             | no       | Collection of all validator functions |
+A 'Field' component only serves as a wrapper for the actual component and provides it with a number of props, how you want to display the field is completely up to you.
+
+| Prop          | Type                                      | Required | Description                           |
+| ------------- | ----------------------------------------- | -------- | ------------------------------------- |
+| component     | FunctionComponent< IFieldComponentProps > | yes      | The component to render as the field  |
+| defaultValue  | string                                    | no       | The default value of the field        |
+| id            | string                                    | yes      | ID of this field                      |
+| validators    | Array< IFieldValidator >                  | no       | Collection of all validator functions |
+
+##### IFieldComponentProps
+
+| Name      | Type          | Description                                                               |
+| --------- | ------------- | ------------------------------------------------------------------------- |
+| error     | string / null | The error message for the field if there is a validation error, else null | 
+| isTouched | boolean       | Has the field been touched by the user or not                             |
+| value     | string        | The current value of the field                                            |
+| update    | function      | [(value: string) => void] Function to update the field value              |
+
+##### IFieldValidator
+
+| Name    | Type     | Description                                                                      |
+| ------- | -------- | -------------------------------------------------------------------------------- |
+| check   | function | [(value: string) => boolean] Function to validate the field, must return boolean |
+| message | string   | The error message to show if the validation fails                                |
 
 #### Interaction
 
-| Prop      | Type              | Required | Description                                |
-| --------- | ----------------- | -------- | ------------------------------------------ |
-| Component | FunctionComponent | yes      | The component to render as the interaction |
+If you find the need to update a form value directly, you can use an 'Interaction' component. Note that these **only** work when they are located **within** a Form component.
+
+| Prop      | Type                                            | Required | Description                                |
+| --------- | ----------------------------------------------- | -------- | ------------------------------------------ |
+| component | FunctionComponent< IInteractionComponentProps > | yes      | The component to render as the interaction |
+
+##### IInteractionComponentProps
+
+| Name   | Type     | Description                                                            |
+| ------ | -------- | ---------------------------------------------------------------------- |
+| update | function | [(id: string, value: string) => void] Function to update field's value |
 
 ### Example
 
