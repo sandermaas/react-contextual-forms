@@ -24,14 +24,11 @@ export const Field: React.FunctionComponent<IFieldProps> = ({ component, default
     }, [error])
 
     useEffect(() => {
-        console.log('EFFECT VALUE', id)
-        console.log(defaultValue)
-        console.log(value)
-
         updateFieldContext(id, { error, value })
         validate()
-        if (!isTouched) {
-            setIsTouched(true)
+
+        if (!isTouched && value) {
+            if (!defaultValue || defaultValue !== value) setIsTouched(true)
         }
     }, [value])
 
