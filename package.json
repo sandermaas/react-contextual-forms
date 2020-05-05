@@ -1,6 +1,6 @@
 {
     "name": "react-contextual-forms",
-    "version": "0.3.1",
+    "version": "0.4.0",
     "description": "Simple forms with React",
     "keywords": [
         "react",
@@ -9,20 +9,26 @@
     "license": "MIT",
     "author": "Sander Maas <sandermaas7@hotmail.com>",
     "homepage": "https://github.com/sandermaas/react-contextual-forms",
+    "repository": "github:sandermaas/react-contextual-forms",
+    "bugs": "https://github.com/sandermaas/react-contextual-forms/issues",
     "main": "./lib/index.js",
+    "unpkg": "dist/react-contextual-forms.js",
     "module": "es/index.js",
     "types": "types/index.d.ts",
     "files": [
         "lib",
         "es",
-        "types"
+        "types",
+        "dist"
     ],
     "scripts": {
-        "build": "npm run clean && npm run build:commonjs && npm run build:es && npm run build:types",
+        "build": "npm run clean && npm run build:commonjs && npm run build:es && npm run build:types && npm run build:umd && npm run build:umd:min",
         "build:commonjs": "cross-env BUILD_TYPE=commonjs babel src --out-dir lib --extensions .ts,.tsx",
         "build:es": "cross-env BUILD_TYPE=es babel src --out-dir es --extensions .ts,.tsx",
         "build:types": "tsc --emitDeclarationOnly --outDir types",
-        "clean": "rimraf lib es types"
+        "build:umd": "cross-env NODE_ENV=development webpack",
+        "build:umd:min": "cross-env NODE_ENV=production webpack",
+        "clean": "rimraf lib es types dist"
     },
     "dependencies": {
         "@babel/runtime": "^7.9.6"
@@ -48,6 +54,7 @@
         "react-dom": "^16.13.1",
         "rimraf": "^3.0.2",
         "typescript": "^3.8.3",
-        "webpack": "^4.42.1"
+        "webpack": "^4.42.1",
+        "webpack-cli": "^3.3.11"
     }
 }

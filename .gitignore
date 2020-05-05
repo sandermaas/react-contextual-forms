@@ -2,6 +2,7 @@
 /node_modules
 
 # Production
+/dist
 /es
 /lib
 /types
