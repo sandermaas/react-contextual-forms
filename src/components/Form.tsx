@@ -33,6 +33,8 @@ export class Form extends React.Component<IFormProps> {
     }
 
     updateFieldContext = (fieldId: string, field: IField) => {
+        const { onChange } = this.props
+
         this._fields = {
             ...this._fields,
             [fieldId]: {
@@ -40,9 +42,15 @@ export class Form extends React.Component<IFormProps> {
                 value: field.value
             }
         }
+        if (onChange) onChange({
+            fields: this._fields,
+            valid: this.validateForm()
+        })
     }
 
     updateFieldInteraction = (fieldId: string, value: string) => {
+        const { onChange } = this.props
+
         if (this._fields[fieldId]) {
             this._fields = {
                 ...this._fields,
@@ -51,6 +59,10 @@ export class Form extends React.Component<IFormProps> {
                     value
                 }
             }
+            if (onChange) onChange({
+                fields: this._fields,
+                valid: this.validateForm()
+            })
             this.forceUpdate()   
         } else {
             console.error(`There is no field with id ${fieldId} to update`)
