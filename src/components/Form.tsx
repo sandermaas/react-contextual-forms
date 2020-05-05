@@ -17,11 +17,18 @@ export class Form extends React.Component<IFormProps> {
 
     handleSubmit = (event: React.FormEvent) => {
         const { onSubmit } = this.props
+        const validForm = this.validateForm()
 
         event.preventDefault()
+        if (!validForm) {
+            this._fields = {
+                ...this._fields
+            }
+            this.forceUpdate()
+        }
         onSubmit({
             fields: this._fields,
-            valid: this.validateForm()
+            valid: validForm
         })
     }
 

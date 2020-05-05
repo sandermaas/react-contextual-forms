@@ -26,7 +26,6 @@ export const Field: React.FunctionComponent<IFieldProps> = ({ component, default
     useEffect(() => {
         updateFieldContext(id, { error, value })
         validate()
-
         if (!isTouched && value) {
             if (!defaultValue || defaultValue !== value) setIsTouched(true)
         }
@@ -36,6 +35,7 @@ export const Field: React.FunctionComponent<IFieldProps> = ({ component, default
         if (form.fields[id] && form.fields[id].value !== value) {
             setValue(form.fields[id].value)
         }
+        if (form.fields[id] && !isTouched) setIsTouched(true)
     }, [form])
 
     const validate = () => {
