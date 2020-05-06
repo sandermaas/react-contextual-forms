@@ -6,10 +6,11 @@ interface IFieldProps {
     component: React.FunctionComponent<IFieldComponentProps>
     defaultValue?: string
     id: string
+    props: {[key: string]: any}
     validators?: Array<IFieldValidator>
 }
 
-export const Field: React.FunctionComponent<IFieldProps> = ({ component, defaultValue, id, validators }) => {
+export const Field: React.FunctionComponent<IFieldProps> = ({ component, defaultValue, id, props, validators }) => {
     const { form, updateFieldContext } = useContext(FormContext)
     const [error, setError] = useState<string | null>(null)
     const [isTouched, setIsTouched] = useState<boolean>(false)
@@ -53,6 +54,7 @@ export const Field: React.FunctionComponent<IFieldProps> = ({ component, default
     return component({
         error,
         isTouched,
+        props,
         value,
         update: (value: string) => setValue(value)
     })
