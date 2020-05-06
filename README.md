@@ -39,12 +39,13 @@ The 'Form' component is the one that will provide the context for the others, yo
 
 A 'Field' component only serves as a wrapper for the actual component and provides it with a number of props, how you want to display the field is completely up to you.
 
-| Prop          | Type                                      | Required | Description                           |
-| ------------- | ----------------------------------------- | -------- | ------------------------------------- |
-| component     | FunctionComponent< IFieldComponentProps > | yes      | The component to render as the field  |
-| defaultValue  | string                                    | no       | The default value of the field        |
-| id            | string                                    | yes      | ID of this field                      |
-| validators    | Array< IFieldValidator >                  | no       | Collection of all validator functions |
+| Prop          | Type                                      | Required | Description                                               |
+| ------------- | ----------------------------------------- | -------- | --------------------------------------------------------- |
+| component     | FunctionComponent< IFieldComponentProps > | yes      | The component to render as the field                      |
+| defaultValue  | string                                    | no       | The default value of the field                            |
+| id            | string                                    | yes      | ID of this field                                          |
+| props         | object                                    | no       | Props of the field which are passed down to the component |
+| validators    | Array< IFieldValidator >                  | no       | Collection of all validator functions                     |
 
 ##### IFieldComponentProps
 
@@ -52,6 +53,7 @@ A 'Field' component only serves as a wrapper for the actual component and provid
 | --------- | ------------- | ------------------------------------------------------------------------- |
 | error     | string / null | The error message for the field if there is a validation error, else null | 
 | isTouched | boolean       | Has the field been touched by the user or not                             |
+| props     | object        | Passed down props from the field                                          |
 | value     | string        | The current value of the field                                            |
 | update    | function      | [(value: string) => void] Function to update the field value              |
 
@@ -76,7 +78,9 @@ If you find the need to update a form value directly, you can use an 'Interactio
 | ------ | -------- | ---------------------------------------------------------------------- |
 | update | function | [(id: string, value: string) => void] Function to update field's value |
 
-### Example
+### Examples
+
+*Javascript*
 
 ```javascript
 import React from 'react'
@@ -139,6 +143,48 @@ function App() {
                     <Field id="choice" defaultValue="B" component={Select} />
                 </div>
                 <Interaction component={ChangeButton} />
+                <button type="submit">Submit</button>
+            </Form>
+        </div>
+    )
+}
+```
+
+*Typescript*
+
+```javascript
+import React from 'react'
+import { Form, Field, Interaction, IFieldComponentProps } from 'react-contextual-forms'
+
+const formValidators = {
+    required: {
+        check: (value) => {  
+            if (!value) return false
+            return true
+        },
+        message: 'This field is required'
+    }
+}
+
+const Input: React.FunctionComponent<IFieldComponentProps> = ({ error, isTouched, props, value, update }) => {
+    return (
+        <span>
+            <label>{props?.label}</label>
+            <input type="text" value={value} onChange={(e) => update(e.target.value)} />
+            <p>{(error && isTouched) && error}</p>
+        </span>
+    )
+}
+
+function App() {
+    return (
+        <div className="App">
+            <p>FORM</p>
+            <Form onChange={(form) => console.log('CHANGE', form)} onSubmit={(form) => console.log('SUBMIT', form)}>
+                <div>
+                    <Field id="lastname" validators={[formValidators.required]} component={Input} props={{ label: 'Last name' }} />
+                    <Field id="firstname" validators={[formValidators.required]} component={Input} />
+                </div>
                 <button type="submit">Submit</button>
             </Form>
         </div>

@@ -6,7 +6,7 @@ interface IFieldProps {
     component: React.FunctionComponent<IFieldComponentProps>
     defaultValue?: string
     id: string
-    props: {[key: string]: any}
+    props?: { [key: string]: any }
     validators?: Array<IFieldValidator>
 }
 
