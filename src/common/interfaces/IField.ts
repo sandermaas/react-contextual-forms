@@ -6,7 +6,7 @@ export interface IField {
 export interface IFieldComponentProps {
     error: string | null
     isTouched: boolean
-    props?: {[key: string]: any}
+    props?: { [key: string]: any }
     value: string
     update: (value: string) => void
 }

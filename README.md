@@ -68,15 +68,17 @@ A 'Field' component only serves as a wrapper for the actual component and provid
 
 If you find the need to update a form value directly, you can use an 'Interaction' component. Note that these **only** work when they are located **within** a Form component.
 
-| Prop      | Type                                            | Required | Description                                |
-| --------- | ----------------------------------------------- | -------- | ------------------------------------------ |
-| component | FunctionComponent< IInteractionComponentProps > | yes      | The component to render as the interaction |
+| Prop      | Type                                            | Required | Description                                                     |
+| --------- | ----------------------------------------------- | -------- | --------------------------------------------------------------- |
+| component | FunctionComponent< IInteractionComponentProps > | yes      | The component to render as the interaction                      |
+| props     | object                                          | no       | Props of the interaction which are passed down to the component |
 
 ##### IInteractionComponentProps
 
-| Name   | Type     | Description                                                            |
-| ------ | -------- | ---------------------------------------------------------------------- |
-| update | function | [(id: string, value: string) => void] Function to update field's value |
+| Name   | Type             | Description                                                            |
+| ------ | ---------------- | ---------------------------------------------------------------------- |
+| props  | object           | Passed down props from the intercaction                                |
+| update | function         | [(id: string, value: string) => void] Function to update field's value |
 
 ### Examples
 
