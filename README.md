@@ -44,6 +44,7 @@ A 'Field' component only serves as a wrapper for the actual component and provid
 | component     | FunctionComponent< IFieldComponentProps > | yes      | The component to render as the field                      |
 | defaultValue  | string                                    | no       | The default value of the field                            |
 | id            | string                                    | yes      | ID of this field                                          |
+| onChange      | function                                  | no       | Returns the value of the field when it changes            |
 | props         | object                                    | no       | Props of the field which are passed down to the component |
 | validators    | Array< IFieldValidator >                  | no       | Collection of all validator functions                     |
 
