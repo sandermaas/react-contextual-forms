@@ -8,9 +8,10 @@ interface IFieldProps {
     id: string
     props?: { [key: string]: any }
     validators?: Array<IFieldValidator>
+    onChange?: (value: string) => void
 }
 
-export const Field: React.FunctionComponent<IFieldProps> = ({ component, defaultValue, id, props, validators }) => {
+export const Field: React.FunctionComponent<IFieldProps> = ({ component, defaultValue, id, props, validators, onChange }) => {
     const { form, updateFieldContext } = useContext(FormContext)
     const [error, setError] = useState<string | null>(null)
     const [isTouched, setIsTouched] = useState<boolean>(false)
@@ -27,6 +28,7 @@ export const Field: React.FunctionComponent<IFieldProps> = ({ component, default
     useEffect(() => {
         updateFieldContext(id, { error, value })
         validate()
+        if (onChange) onChange(value)
         if (!isTouched && value) {
             if (!defaultValue || defaultValue !== value) setIsTouched(true)
         }

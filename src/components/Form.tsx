@@ -28,7 +28,7 @@ export class Form extends React.Component<IFormProps, IFormSate> {
         if (!this.state.isValidated) this.setState({ isValidated: true })
         onSubmit({
             fields: this._fields,
-            isValidated: this.state.isValidated,
+            isValidated: true,
             valid: validForm
         })
     }
