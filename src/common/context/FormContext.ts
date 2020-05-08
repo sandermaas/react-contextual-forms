@@ -10,6 +10,7 @@ interface IFormContext {
 const initialState: IFormContext = {
     form: {
         fields: {},
+        isValidated: false,
         valid: true
     },
     updateFieldContext: (fieldId, field) => {},

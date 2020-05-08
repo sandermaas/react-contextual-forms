@@ -6,13 +6,18 @@ interface IFormProps {
     onChange?: ({}: IForm) => void
     onSubmit: ({}: IForm) => void
 }
+interface IFormSate {
+    isValidated: boolean
+}
 
-export class Form extends React.Component<IFormProps> {
+export class Form extends React.Component<IFormProps, IFormSate> {
     private _fields: {[key: string]: IField} = {}
 
     constructor(props: IFormProps) {
         super(props)
-        this.state = {}
+        this.state = {
+            isValidated: false
+        }
     }
 
     handleSubmit = (event: React.FormEvent) => {
@@ -20,14 +25,10 @@ export class Form extends React.Component<IFormProps> {
         const validForm = this.validateForm()
 
         event.preventDefault()
-        if (!validForm) {
-            this._fields = {
-                ...this._fields
-            }
-            this.forceUpdate()
-        }
+        if (!this.state.isValidated) this.setState({ isValidated: true })
         onSubmit({
             fields: this._fields,
+            isValidated: this.state.isValidated,
             valid: validForm
         })
     }
@@ -44,6 +45,7 @@ export class Form extends React.Component<IFormProps> {
         }
         if (onChange) onChange({
             fields: this._fields,
+            isValidated: this.state.isValidated,
             valid: this.validateForm()
         })
     }
@@ -61,6 +63,7 @@ export class Form extends React.Component<IFormProps> {
             }
             if (onChange) onChange({
                 fields: this._fields,
+                isValidated: this.state.isValidated,
                 valid: this.validateForm()
             })
             this.forceUpdate()   
@@ -86,6 +89,7 @@ export class Form extends React.Component<IFormProps> {
             <FormContext.Provider value={{ 
                 form: {
                     fields: this._fields,
+                    isValidated: this.state.isValidated,
                     valid: this.validateForm()
                 },
                 updateFieldContext: this.updateFieldContext,
