@@ -1,10 +1,12 @@
 {
     "name": "react-contextual-forms",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "description": "Simple forms with React",
     "keywords": [
         "react",
-        "forms"
+        "forms",
+        "context",
+        "hooks"
     ],
     "license": "MIT",
     "author": "Sander Maas <sandermaas7@hotmail.com>",
